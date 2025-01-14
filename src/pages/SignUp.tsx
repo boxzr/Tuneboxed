@@ -1,40 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { motion } from 'framer-motion';
 
 function SignUp() {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Signup:', { name, email });
-  };
-
   return (
-    <div className="page">
-      <div className="signup-form">
-        <h2>Join Tuneboxed</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Your Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            type="email"
-            placeholder="Your Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button type="submit" className="signup-button">
-            Sign Up
-          </button>
-        </form>
-      </div>
-      <div className="preview-grid">
-        <div className="preview-box"></div>
-        <div className="preview-box"></div>
-        <div className="preview-box"></div>
+    <div className="page signup-page">
+      <div className="content-container">
+        <motion.h1 
+          className="page-title"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          Join Tuneboxed
+        </motion.h1>
+        <motion.div 
+          className="signup-form"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" placeholder="Create a password" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" placeholder="Confirm your password" />
+          </div>
+          <button className="signup-button">Sign Up with Email</button>
+          <div className="divider">or</div>
+          <button className="spotify-button">Continue with Spotify</button>
+        </motion.div>
       </div>
     </div>
   );
