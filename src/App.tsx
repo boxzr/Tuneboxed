@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import './App.css';
+import tuneboxedLogo from './tuneboxed-logo.png';
 
 function App() {
   const [email, setEmail] = useState('');
@@ -8,6 +9,48 @@ function App() {
   const [currentSection, setCurrentSection] = useState('home');
   const [isBoxClicked, setIsBoxClicked] = useState(false);
   const audioRef = useRef(new Audio('/explosion.mp3'));
+
+  // Add background animation
+  const instruments = ['🎸', '🎹', '🎺', '🎷', '🎻', '🥁', '🎼', '🎵', '🎶'];
+  const [backgroundElements, setBackgroundElements] = useState<JSX.Element[]>([]);
+
+  useEffect(() => {
+    const elements = Array.from({ length: 20 }, (_, i) => {
+      const instrument = instruments[Math.floor(Math.random() * instruments.length)];
+      const delay = Math.random() * 20;
+      const duration = 15 + Math.random() * 10;
+      const startX = Math.random() * window.innerWidth;
+      
+      return (
+        <motion.span
+          key={i}
+          className="floating-instrument"
+          initial={{ 
+            x: startX,
+            y: window.innerHeight + 100,
+            opacity: 0,
+            rotate: 0
+          }}
+          animate={{
+            x: startX + (Math.random() - 0.5) * 200,
+            y: -100,
+            opacity: [0, 0.5, 0],
+            rotate: 360
+          }}
+          transition={{
+            duration: duration,
+            delay: delay,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        >
+          {instrument}
+        </motion.span>
+      );
+    });
+
+    setBackgroundElements(elements);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,10 +70,19 @@ function App() {
 
   return (
     <div className="App">
+      <div className="background-animation">
+        {backgroundElements}
+      </div>
+      
       <nav className="nav-menu">
-        <a href="#home" className="nav-link" onClick={handleNavClick('home')}>Home</a>
-        <a href="#about" className="nav-link" onClick={handleNavClick('about')}>About</a>
-        <a href="#signup" className="nav-link" onClick={handleNavClick('signup')}>Sign Up</a>
+        <a href="/" className="nav-logo">
+          <img src={tuneboxedLogo} alt="Tuneboxed" className="nav-logo-image" />
+        </a>
+        <div className="nav-links">
+          <a href="#home" className="nav-link" onClick={handleNavClick('home')}>Home</a>
+          <a href="#about" className="nav-link" onClick={handleNavClick('about')}>About</a>
+          <a href="#signup" className="nav-link" onClick={handleNavClick('signup')}>Sign Up</a>
+        </div>
       </nav>
 
       {currentSection === 'home' && (
@@ -69,68 +121,163 @@ function App() {
                       ease: "easeInOut"
                     }}
                   />
-                  <div className="flap-top"></div>
-                  <div className="flap-right"></div>
-                  <div className="flap-bottom"></div>
-                  <div className="flap-left"></div>
                 </div>
               </motion.div>
             )}
 
             {isBoxClicked && (
               <>
-                {/* Explosion particles */}
-                {[...Array(30)].map((_, i) => (
-                  <motion.span
-                    key={i}
-                    className="explosion-particle"
-                    initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
-                    animate={{ 
-                      opacity: [0, 1, 0],
-                      y: [(Math.random() - 0.5) * 200, (Math.random() - 0.5) * 600],
-                      x: [(Math.random() - 0.5) * 200, (Math.random() - 0.5) * 600],
-                      scale: [0, 1, 0],
-                      rotate: Math.random() * 720 - 360
-                    }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
-                  >
-                    {['🎵', '🎶', '🎸', '🎹', '🎼'][i % 5]}
-                  </motion.span>
-                ))}
+                <motion.div 
+                  className="explosion-effect"
+                  initial={{ scale: 1, opacity: 1 }}
+                  animate={{ 
+                    scale: [1, 1.5, 2],
+                    opacity: [1, 0.5, 0]
+                  }}
+                  transition={{ duration: 0.5 }}
+                />
 
-                {/* Homepage content */}
                 <motion.div 
                   className="content-container"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
+                  initial={{ 
+                    opacity: 0,
+                    scale: 0.2,
+                    y: 0
+                  }}
+                  animate={{ 
+                    opacity: 1,
+                    scale: [0.2, 1.2, 1],
+                    y: [-100, 50, 0],
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    times: [0, 0.6, 1],
+                    ease: "easeOut"
+                  }}
                 >
                   <motion.h1 
                     className="logo-text"
-                    initial={{ opacity: 0, y: -50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
+                    initial={{ opacity: 0, scale: 0.5, y: -100 }}
+                    animate={{ 
+                      opacity: 1,
+                      scale: [0.5, 1.2, 1],
+                      y: [-100, 20, 0]
+                    }}
+                    transition={{ 
+                      duration: 0.8,
+                      delay: 0.2
+                    }}
                   >
                     TUNEBOXED
                   </motion.h1>
+
                   <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
                   >
                     Showcase your music taste.
                   </motion.p>
+
                   <motion.div 
                     className="preview-container"
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6, duration: 0.5 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.6 }}
                   >
-                    <div className="preview-box"></div>
-                    <div className="preview-box"></div>
-                    <div className="preview-box"></div>
+                    {[0, 1, 2].map((i) => (
+                      <motion.div
+                        key={i}
+                        className="preview-box"
+                        initial={{ 
+                          opacity: 0,
+                          x: 0,
+                          y: 0,
+                          scale: 0,
+                          rotate: -180
+                        }}
+                        animate={{ 
+                          opacity: 1,
+                          x: 0,
+                          y: 0,
+                          scale: 1,
+                          rotate: 0
+                        }}
+                        transition={{ 
+                          delay: 0.7 + (i * 0.2),
+                          duration: 0.6,
+                          ease: "easeOut"
+                        }}
+                      />
+                    ))}
+                  </motion.div>
+
+                  <motion.div 
+                    className="mission-section"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 1.2 }}
+                  >
+                    <motion.img 
+                      src={tuneboxedLogo}
+                      alt="Tuneboxed"
+                      className="mission-logo"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.6, delay: 1.4 }}
+                    />
+                    <motion.h2 
+                      className="mission-title"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.6 }}
+                    >
+                      TuneBoxed© - Showcase Your Music Taste
+                    </motion.h2>
+                    <motion.p 
+                      className="mission-text"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.8 }}
+                    >
+                      Share and Express Yourself Through Sound
+                    </motion.p>
+                    <motion.p 
+                      className="mission-description"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 2.0 }}
+                    >
+                      First app where you can draw and write about how music makes you feel.
+                    </motion.p>
                   </motion.div>
                 </motion.div>
+
+                {[...Array(40)].map((_, i) => (
+                  <motion.span
+                    key={i}
+                    className="explosion-particle"
+                    initial={{ 
+                      opacity: 0,
+                      x: 0,
+                      y: 0,
+                      scale: 0
+                    }}
+                    animate={{ 
+                      opacity: [0, 1, 0],
+                      y: [(Math.random() - 0.5) * 300, (Math.random() - 0.5) * 800],
+                      x: [(Math.random() - 0.5) * 300, (Math.random() - 0.5) * 800],
+                      scale: [0, 1, 0],
+                      rotate: Math.random() * 720 - 360
+                    }}
+                    transition={{ 
+                      duration: 1.5,
+                      ease: "easeOut"
+                    }}
+                  >
+                    {['🎵', '🎶', '🎸', '🎹', '🎼', '✨', '💫'][i % 7]}
+                  </motion.span>
+                ))}
               </>
             )}
           </motion.div>
@@ -138,9 +285,79 @@ function App() {
       )}
 
       {currentSection === 'about' && (
-        <section id="about" className="section">
-          <h2>About Us</h2>
-          <p>Blank</p>
+        <section id="about" className="about-section">
+          <motion.div 
+            className="about-container"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <motion.h2 
+              className="about-title gradient-text"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+            >
+              Revolutionizing Music Expression
+            </motion.h2>
+
+            <motion.div 
+              className="about-content"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+            >
+              <motion.p 
+                className="about-intro gradient-text-orange"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.6, duration: 0.6 }}
+              >
+                TuneBoxed is transforming how we experience and share music in the digital age.
+              </motion.p>
+
+              <div className="about-features">
+                <motion.div 
+                  className="feature-block"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.8, duration: 0.6 }}
+                >
+                  <h3 className="gradient-text-blue">Vision & Innovation</h3>
+                  <p>Create a vibrant ecosystem where music lovers can express their emotional connection to songs through unique visual and written expressions. Our innovative TuneBox feature allows users to draw and describe their musical journey.</p>
+                </motion.div>
+
+                <motion.div 
+                  className="feature-block"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1.0, duration: 0.6 }}
+                >
+                  <h3 className="gradient-text-orange">Community & Connection</h3>
+                  <p>Foster meaningful connections through music with location-based communities, genre-specific groups, and interactive challenges. Engage with fellow music enthusiasts, discover new artists, and share your musical discoveries.</p>
+                </motion.div>
+
+                <motion.div 
+                  className="feature-block"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1.2, duration: 0.6 }}
+                >
+                  <h3 className="gradient-text-navy">Platform Features</h3>
+                  <p>Weekly curated music posts, creative expression tools, verified profiles, direct messaging, and personalized event discoveries. Experience music sharing reimagined for the modern social era.</p>
+                </motion.div>
+              </div>
+
+              <motion.div 
+                className="about-mission"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 1.4, duration: 0.6 }}
+              >
+                <p className="gradient-text">Join us in redefining the future of music sharing and discovery.</p>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </section>
       )}
 
