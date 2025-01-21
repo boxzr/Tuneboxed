@@ -1,0 +1,25 @@
+{
+    "build": {
+      "development": {
+        "distribution": "internal",
+        "ios": {
+          "buildConfiguration": "Debug",
+          "credentialsSource": "local"
+        },
+        "android": {
+          "buildType": "apk"
+        }
+      },
+      "production": {
+        "distribution": "store",
+        "ios": {
+          "buildConfiguration": "Release",
+          "credentialsSource": "remote"
+        },
+        "android": {
+          "buildType": "aab"
+        }
+      }
+    }
+  }
+  
