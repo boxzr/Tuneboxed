@@ -1,25 +1,25 @@
 {
-    "build": {
-      "development": {
-        "distribution": "internal",
-        "ios": {
-          "buildConfiguration": "Debug",
-          "credentialsSource": "local"
-        },
-        "android": {
-          "buildType": "apk"
-        }
+  "build": {
+    "development": {
+      "distribution": "internal",
+      "ios": {
+        "buildConfiguration": "Debug"
       },
-      "production": {
-        "distribution": "store",
-        "ios": {
-          "buildConfiguration": "Release",
-          "credentialsSource": "remote"
-        },
-        "android": {
-          "buildType": "aab"
-        }
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {
+      "distribution": "store",
+      "ios": {
+        "buildConfiguration": "Release"
+      },
+      "android": {
+        "buildType": "app-bundle"
       }
     }
   }
+}
+
+
   
