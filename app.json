@@ -2,7 +2,10 @@
   "expo": {
     "name": "Tuneboxed",
     "slug": "tuneboxed",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,7 +14,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "bundleIdentifier": "com.example.tuneboxed",
       "buildNumber": "1.0.0",
@@ -28,9 +33,12 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
+    "cli": {
+      "appVersionSource": "git"
+    },
     "extra": {
       "eas": {
-        "projectId": "1c962fd9-c755-49ac-9460-804b911b38f0"
+        "projectId": "a197fd33-55e6-403b-83e0-e78e1f64620e"
       }
     }
   }

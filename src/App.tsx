@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import './App.css';
 import tuneboxedLogo from './tuneboxed-logo.png';
 
@@ -9,6 +9,8 @@ function App() {
   const [currentSection, setCurrentSection] = useState('home');
   const [isBoxClicked, setIsBoxClicked] = useState(false);
   const audioRef = useRef(new Audio('/explosion.mp3'));
+  const [activeSection, setActiveSection] = useState('vision');
+  const [activeFeature, setActiveFeature] = useState<string | null>(null);
 
   // Add background animation
   const instruments = ['🎸', '🎹', '🎺', '🎷', '🎻', '🥁', '🎼', '🎵', '🎶'];
@@ -293,69 +295,156 @@ function App() {
             transition={{ duration: 0.8 }}
           >
             <motion.h2 
-              className="about-title gradient-text"
+              className="about-title"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
-              Revolutionizing Music Expression
+              Transforming music expression
             </motion.h2>
 
-            <motion.div 
-              className="about-content"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
+            <motion.p 
+              className="about-intro"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
             >
-              <motion.p 
-                className="about-intro gradient-text-orange"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
+              Experience music sharing reimagined for the modern era
+            </motion.p>
+
+            <div className="features-container">
+              <motion.div 
+                className="feature-item"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
               >
-                TuneBoxed is transforming how we experience and share music in the digital age.
-              </motion.p>
-
-              <div className="about-features">
-                <motion.div 
-                  className="feature-block"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.8, duration: 0.6 }}
+                <motion.button
+                  className={`feature-trigger ${activeFeature === 'vision' ? 'active' : ''}`}
+                  onClick={() => setActiveFeature(activeFeature === 'vision' ? null : 'vision')}
+                  whileHover={{ backgroundColor: 'rgba(255, 138, 61, 0.05)' }}
                 >
-                  <h3 className="gradient-text-blue">Vision & Innovation</h3>
-                  <p>Create a vibrant ecosystem where music lovers can express their emotional connection to songs through unique visual and written expressions. Our innovative TuneBox feature allows users to draw and describe their musical journey.</p>
-                </motion.div>
-
-                <motion.div 
-                  className="feature-block"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 1.0, duration: 0.6 }}
-                >
-                  <h3 className="gradient-text-orange">Community & Connection</h3>
-                  <p>Foster meaningful connections through music with location-based communities, genre-specific groups, and interactive challenges. Engage with fellow music enthusiasts, discover new artists, and share your musical discoveries.</p>
-                </motion.div>
-
-                <motion.div 
-                  className="feature-block"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 1.2, duration: 0.6 }}
-                >
-                  <h3 className="gradient-text-navy">Platform Features</h3>
-                  <p>Weekly curated music posts, creative expression tools, verified profiles, direct messaging, and personalized event discoveries. Experience music sharing reimagined for the modern social era.</p>
-                </motion.div>
-              </div>
+                  <span className="feature-title">Vision & Innovation</span>
+                  <motion.span 
+                    className="feature-arrow"
+                    animate={{ rotate: activeFeature === 'vision' ? 180 : 0 }}
+                  >
+                    ↓
+                  </motion.span>
+                </motion.button>
+                <AnimatePresence>
+                  {activeFeature === 'vision' && (
+                    <motion.div 
+                      className="feature-content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <p>Create a vibrant ecosystem where music lovers can express their emotional connection to songs through unique visual and written expressions.</p>
+                      <div className="feature-details">
+                        <ul>
+                          <li>Innovative TuneBox creation tools</li>
+                          <li>Visual music expression platform</li>
+                          <li>Personalized musical journey tracking</li>
+                        </ul>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
 
               <motion.div 
-                className="about-mission"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 1.4, duration: 0.6 }}
+                className="feature-item"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
               >
-                <p className="gradient-text">Join us in redefining the future of music sharing and discovery.</p>
+                <motion.button
+                  className={`feature-trigger ${activeFeature === 'community' ? 'active' : ''}`}
+                  onClick={() => setActiveFeature(activeFeature === 'community' ? null : 'community')}
+                  whileHover={{ backgroundColor: 'rgba(74, 164, 222, 0.05)' }}
+                >
+                  <span className="feature-title">Community & Connection</span>
+                  <motion.span 
+                    className="feature-arrow"
+                    animate={{ rotate: activeFeature === 'community' ? 180 : 0 }}
+                  >
+                    ↓
+                  </motion.span>
+                </motion.button>
+                <AnimatePresence>
+                  {activeFeature === 'community' && (
+                    <motion.div 
+                      className="feature-content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <p>Foster meaningful connections through music with location-based communities and genre-specific groups.</p>
+                      <div className="feature-details">
+                        <ul>
+                          <li>Location-based music communities</li>
+                          <li>Genre-specific discussion groups</li>
+                          <li>Collaborative playlists and sharing</li>
+                        </ul>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
+
+              <motion.div 
+                className="feature-item"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <motion.button
+                  className={`feature-trigger ${activeFeature === 'platform' ? 'active' : ''}`}
+                  onClick={() => setActiveFeature(activeFeature === 'platform' ? null : 'platform')}
+                  whileHover={{ backgroundColor: 'rgba(27, 45, 78, 0.05)' }}
+                >
+                  <span className="feature-title">Platform Features</span>
+                  <motion.span 
+                    className="feature-arrow"
+                    animate={{ rotate: activeFeature === 'platform' ? 180 : 0 }}
+                  >
+                    ↓
+                  </motion.span>
+                </motion.button>
+                <AnimatePresence>
+                  {activeFeature === 'platform' && (
+                    <motion.div 
+                      className="feature-content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <p>Weekly curated music posts, creative expression tools, and personalized event discoveries.</p>
+                      <div className="feature-details">
+                        <ul>
+                          <li>Curated weekly music discoveries</li>
+                          <li>Advanced sharing tools</li>
+                          <li>Personalized recommendations</li>
+                        </ul>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            </div>
+
+            <motion.div 
+              className="about-mission"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+            >
+              <p className="gradient-text">Join us in redefining the future of music sharing</p>
             </motion.div>
           </motion.div>
         </section>
