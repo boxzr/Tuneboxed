@@ -32,8 +32,6 @@ function SignUp() {
             <input type="password" id="confirm-password" placeholder="Confirm your password" />
           </div>
           <button className="signup-button">Sign Up with Email</button>
-          <div className="divider">or</div>
-          <button className="spotify-button">Continue with Spotify</button>
         </motion.div>
       </div>
     </div>

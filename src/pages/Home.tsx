@@ -1,45 +1,52 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import PreviewBox from '../components/PreviewBox';
+
+// Inline CSS for direct styling without any class dependencies
+const containerStyle = {
+  padding: '20px', 
+  textAlign: 'center' as const,
+  maxWidth: '800px',
+  margin: '0 auto'
+};
+
+const imageContainerStyle = {
+  marginTop: '30px',
+  display: 'flex',
+  flexDirection: 'column' as const,
+  alignItems: 'center',
+  gap: '30px'
+};
+
+const boxStyle = {
+  width: '300px',
+  height: '300px',
+  border: '3px solid #1B2D4E',
+  overflow: 'hidden'
+};
+
+const imgStyle = {
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover' as const,
+  display: 'block'
+};
 
 function Home() {
   return (
-    <div className="page home-page">
-      <div className="content-container">
-        <motion.h1 
-          className="logo-text"
-          initial={{ opacity: 0, scale: 0.5, y: 100, filter: "blur(10px)" }}
-          animate={{ 
-            opacity: 1, 
-            scale: [0.5, 1.2, 0.9, 1],
-            y: [100, -20, 10, 0],
-            filter: ["blur(10px)", "blur(0px)"]
-          }}
-          transition={{ 
-            duration: 1.2,
-            times: [0, 0.3, 0.6, 1],
-            ease: "easeOut"
-          }}
-        >
-          TUNEBOXED
-        </motion.h1>
-        <p>Showcase your music taste.</p>
-        <div className="preview-container">
-          <PreviewBox 
-            title="Top Artists" 
-            description="View your most listened to artists"
-            link="/artists"
-          />
-          <PreviewBox 
-            title="Top Tracks" 
-            description="Check out your favorite songs"
-            link="/tracks"
-          />
-          <PreviewBox 
-            title="Recent Activity" 
-            description="See what you've been listening to lately"
-            link="/recent"
-          />
+    <div style={containerStyle}>
+      <h1 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>TUNEBOXED</h1>
+      <p style={{ marginBottom: '40px' }}>Showcase your music taste.</p>
+      
+      <div style={imageContainerStyle}>
+        <div style={boxStyle}>
+          <img src="/story1.png" alt="Story 1" style={imgStyle} />
+        </div>
+        
+        <div style={boxStyle}>
+          <img src="/story2.png" alt="Story 2" style={imgStyle} />
+        </div>
+        
+        <div style={boxStyle}>
+          <img src="/story3.png" alt="Story 3" style={imgStyle} />
         </div>
       </div>
     </div>
